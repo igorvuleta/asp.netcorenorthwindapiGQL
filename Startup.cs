@@ -8,6 +8,7 @@ using GraphQL.Server.Ui.Playground;
 using GraphQL.Server.Ui.Voyager;
 using graphqldemo.Data;
 using graphqldemo.Data.Repositories;
+using graphqldemo.Data.Repositories.CategoriesRepo;
 using graphqldemo.Data.Repositories.SupplierRepo;
 using graphqldemo.GraphQL;
 using Microsoft.AspNetCore.Builder;
@@ -54,6 +55,7 @@ namespace graphqldemo
 
             services.AddScoped<ProductRepository>();
             services.AddScoped<SupplierRepo>();
+            services.AddScoped<CategoriesRepo>();
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<NorthWindSchema>();
 
