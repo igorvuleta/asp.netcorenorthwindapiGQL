@@ -6,12 +6,16 @@
 
   <ItemGroup>
     <Compile Remove="Data\Repositories\NewFolder1\**" />
+    <Compile Remove="Data\Repositories\NewFolder2\**" />
     <Compile Remove="Data\Repositories\NewFolder\**" />
     <Content Remove="Data\Repositories\NewFolder1\**" />
+    <Content Remove="Data\Repositories\NewFolder2\**" />
     <Content Remove="Data\Repositories\NewFolder\**" />
     <EmbeddedResource Remove="Data\Repositories\NewFolder1\**" />
+    <EmbeddedResource Remove="Data\Repositories\NewFolder2\**" />
     <EmbeddedResource Remove="Data\Repositories\NewFolder\**" />
     <None Remove="Data\Repositories\NewFolder1\**" />
+    <None Remove="Data\Repositories\NewFolder2\**" />
     <None Remove="Data\Repositories\NewFolder\**" />
   </ItemGroup>
 

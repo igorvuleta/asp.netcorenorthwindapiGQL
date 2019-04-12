@@ -9,12 +9,12 @@ namespace graphqldemo.GraphQL.Types
 {
     public class CategoriesType : ObjectGraphType<Categories>
     {
-        CategoriesType()
+        public CategoriesType()
         {
-            Field(t => t.CategoryId);
+            Field(t => t.CategoryId, type:typeof(IdGraphType));
             Field(t => t.CategoryName);
             Field(t => t.Description);
-            Field(t => t.Picture);
+           Field(t => t.Picture, type:typeof(ListGraphType<StringGraphType>));
 
         }
     }
