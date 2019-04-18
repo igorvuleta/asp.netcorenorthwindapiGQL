@@ -1,4 +1,5 @@
 ﻿using GraphQL.Types;
+using graphqldemo.Data.Repositories.OrderDetailsRepo;
 using graphqldemo.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace graphqldemo.GraphQL.Types
 {
     public class OrdersType : ObjectGraphType<Orders>
     {
-        public OrdersType()
+        public OrdersType( OrderDetailsRepo orderDetailsRepo)
         {
             Field(t => t.OrderId);
             Field(t => t.CustomerId, type:typeof(CustomersType));
@@ -25,6 +26,11 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.ShipRegion);
             Field(t => t.ShipPostalCode);
             Field(t => t.ShipCountry);
+            Field<ListGraphType<OrderDetailsType>>(
+
+                name: "OrderDetails",
+                resolve: context => orderDetailsRepo.GetAllAsync(context.Source.OrderId)
+                );
         }
             
     }

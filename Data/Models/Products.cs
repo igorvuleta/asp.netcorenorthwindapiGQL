@@ -23,6 +23,6 @@ namespace graphqldemo.Models
 
         public Categories Category { get; set; }
         public Suppliers Supplier { get; set; }
-        public ICollection<OrderDetails> OrderDetails { get; set; }
+        public IEnumerable<OrderDetails> OrderDetails { get; set; }
     }
 }

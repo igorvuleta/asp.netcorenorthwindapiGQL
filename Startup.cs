@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GraphQL;
+using GraphQL.DataLoader;
+using GraphQL.Http;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using GraphQL.Server.Ui.Voyager;
+using GraphQL.Types;
 using graphqldemo.Data;
 using graphqldemo.Data.Repositories;
 using graphqldemo.Data.Repositories.CategoriesRepo;
@@ -21,6 +24,7 @@ using graphqldemo.Data.Repositories.ShippersRepo;
 using graphqldemo.Data.Repositories.SupplierRepo;
 using graphqldemo.Data.Repositories.TerritoriesRepo;
 using graphqldemo.GraphQL;
+using graphqldemo.middleware;
 using graphqldemo.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -48,7 +52,7 @@ namespace graphqldemo
         {
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
-                builder => builder.WithOrigins("http://localhost:4200")
+                builder => builder.WithOrigins("http://localhost:4200", "https://localhost:44372")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()
@@ -61,9 +65,12 @@ namespace graphqldemo
                 options.UseSqlServer(Configuration["ApiConfiguration:DbConnectionString"]);
             });
 
-            
-            
 
+            services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+
+            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
+            services.AddSingleton<IDocumentWriter, DocumentWriter>();
+            services.AddSingleton<DataLoaderDocumentListener>();
             services.AddScoped<ProductRepository>();
             services.AddScoped<SupplierRepo>();
             services.AddScoped<CategoriesRepo>();
@@ -77,14 +84,14 @@ namespace graphqldemo
             services.AddScoped<TerritoriesRepo>();
             services.AddScoped<CustomerCustomerDemoRepo>();
             services.AddScoped<CustomerDemographicsRepo>();
-            services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-            services.AddScoped<NorthWindSchema>();
+            
+            services.AddScoped<ISchema,NorthWindSchema>();
 
             services.AddGraphQL(options =>
             {
                 options.ExposeExceptions = true;
 
-            }).AddGraphTypes(ServiceLifetime.Scoped);
+            }).AddGraphTypes(ServiceLifetime.Scoped).AddDataLoader();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,6 +108,7 @@ namespace graphqldemo
 
 
             app.UseCors("CorsPolicy");
+            app.UseMiddleware<GraphqlMiddleware>();
             app.UseHttpsRedirection();
             app.UseGraphQL<NorthWindSchema>();
             app.UseGraphQLVoyager(new GraphQLVoyagerOptions());

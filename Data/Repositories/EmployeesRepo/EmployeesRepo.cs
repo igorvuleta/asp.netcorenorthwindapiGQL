@@ -13,7 +13,7 @@ namespace graphqldemo.Data.Repositories.EmployeesRepo
 
         public EmployeesRepo(NorthWindContext dbContext)
         {
-
+            _dbContext = dbContext;
         }
         public async Task<IList<Employees>> GetAllAsync()
         {

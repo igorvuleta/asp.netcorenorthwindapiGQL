@@ -17,11 +17,19 @@ namespace graphqldemo.Data.Repositories.CategoriesRepo
             _dbContext = dbcontext;
         }
 
+        public async Task<IList<Categories>> GetAllAsync(int productId)
+        {
+            return await _dbContext.Categories.ToListAsync();
+        }
+
         public async Task<IList<Categories>> GetAllAsync()
         {
             return await _dbContext.Categories.ToListAsync();
         }
 
-        
+        public async Task<Categories> GetOne(int id)
+        {
+            return await _dbContext.Categories.FirstOrDefaultAsync(p => p.CategoryId == id);
+        }
     }
 }

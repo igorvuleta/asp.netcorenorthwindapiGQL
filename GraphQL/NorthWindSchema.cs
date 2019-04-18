@@ -13,6 +13,7 @@ namespace graphqldemo.GraphQL
         public NorthWindSchema(IDependencyResolver resolver ) : base(resolver)
         {
             Query = resolver.Resolve<NorthWindQuery>();
+            Mutation = resolver.Resolve<NorthWindMutation>();
         }
     }
 }
