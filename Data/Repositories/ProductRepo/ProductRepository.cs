@@ -27,6 +27,19 @@ namespace graphqldemo.Data.Repositories
             await _dbContext.SaveChangesAsync();
             return product;
         }
+        public async Task<int> RemoveProducts(int id)
+        {
+            var product = await _dbContext.Products.FindAsync(id);
+            _dbContext.Remove(product);
+            return id;
+
+
+            
+        }
+        public async Task<Products> getProductById(Products productId)
+        {
+            return await _dbContext.Products.SingleOrDefaultAsync(p => p.ProductId.Equals(productId));
+        }
 
         public async Task<IList<Products>> GetAllAsync()
         {
@@ -37,6 +50,12 @@ namespace graphqldemo.Data.Repositories
         {
             var products = await _dbContext.Products.Where(i => productsIds.Contains(i.ProductId)).ToListAsync();
             return products.ToLookup(r => r.ProductId);
+        }
+
+        public void  RemoveProduct(Products product)
+        {
+            _dbContext.Remove(product);
+            _dbContext.SaveChanges();
         }
 
         public async Task<Products> GetOne(int id)

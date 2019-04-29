@@ -12,3 +12,17 @@ C:\Users\ivuleta\source\repos\graphqldemo\graphqldemo\obj\Debug\netcoreapp2.1\gr
 C:\Users\ivuleta\source\repos\graphqldemo\graphqldemo\obj\Debug\netcoreapp2.1\graphqldemo.dll
 C:\Users\ivuleta\source\repos\graphqldemo\graphqldemo\obj\Debug\netcoreapp2.1\graphqldemo.pdb
 C:\Users\ivuleta\source\repos\graphqldemo\graphqldemo\obj\Debug\netcoreapp2.1\graphqldemo.csprojAssemblyReference.cache
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\bin\Debug\netcoreapp2.1\graphqldemo.deps.json
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\bin\Debug\netcoreapp2.1\graphqldemo.runtimeconfig.json
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\bin\Debug\netcoreapp2.1\graphqldemo.runtimeconfig.dev.json
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\bin\Debug\netcoreapp2.1\graphqldemo.dll
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\bin\Debug\netcoreapp2.1\graphqldemo.pdb
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.csprojAssemblyReference.cache
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.csproj.CoreCompileInputs.cache
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.RazorAssemblyInfo.cache
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.RazorAssemblyInfo.cs
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.AssemblyInfoInputs.cache
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.AssemblyInfo.cs
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.RazorTargetAssemblyInfo.cache
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.dll
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.pdb

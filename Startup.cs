@@ -52,7 +52,7 @@ namespace graphqldemo
         {
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
-                builder => builder.WithOrigins("http://localhost:4200", "https://localhost:44372")
+                builder => builder.WithOrigins("http://localhost:4200", "https://localhost:44372", "http://10.198.3.161:4200")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()

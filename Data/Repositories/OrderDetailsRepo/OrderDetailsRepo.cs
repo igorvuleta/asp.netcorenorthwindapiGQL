@@ -24,5 +24,14 @@ namespace graphqldemo.Data.Repositories.OrderDetailsRepo
         {
             return await _dbContext.OrderDetails.ToListAsync();
         }
+        public async Task<OrderDetails> GetOne(int id)
+        {
+            return await _dbContext.OrderDetails.FirstOrDefaultAsync(p => p.ProductId == id);
+        }
+        public void RemoveEntry(OrderDetails orderDetails)
+        {
+            _dbContext.Remove(orderDetails);
+            _dbContext.SaveChanges();
+        }
     }
 }

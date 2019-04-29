@@ -19,5 +19,9 @@ namespace graphqldemo.Data.Repositories.OrdersRepo
         {
             return await _dbContext.Orders.ToListAsync();
         }
+        public async Task<Orders> GetOne(int id)
+        {
+            return await _dbContext.Orders.FirstOrDefaultAsync(p => p.OrderId == id);
+        }
     }
 }
