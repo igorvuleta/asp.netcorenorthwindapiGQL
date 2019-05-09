@@ -20,6 +20,10 @@ namespace graphqldemo.Data.Repositories.CustomerDemographicsRepo
         {
             return await _dbContext.CustomerDemographics.ToListAsync();
         }
-            
+
+        public async Task<CustomerDemographics> GetOne(string id)
+        {
+          return await _dbContext.CustomerDemographics.FirstOrDefaultAsync(p => p.CustomerTypeId == id);
+        }
     }
 }

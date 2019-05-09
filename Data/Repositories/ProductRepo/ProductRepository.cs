@@ -58,9 +58,9 @@ namespace graphqldemo.Data.Repositories
             _dbContext.SaveChanges();
         }
 
-        public async Task<Products> GetOne(int id)
+        public async Task<Products> GetOne(int? id)
         {
-            return await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == id);
+            return await _dbContext.Products.OrderBy(p => p.ProductId == id).FirstOrDefaultAsync();
         }
     }
         

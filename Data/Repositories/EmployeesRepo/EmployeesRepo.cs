@@ -21,7 +21,7 @@ namespace graphqldemo.Data.Repositories.EmployeesRepo
         }
         public async Task<Employees> GetOne(int id)
         {
-            return await _dbContext.Employees.FirstOrDefaultAsync(p => p.EmployeeId == id);
+            return await _dbContext.Employees.OrderBy(p => p.EmployeeId == id).FirstOrDefaultAsync();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace graphqldemo.GraphQL.Types
     {
         public EmployeeTerritoriesType()
         {
-            Field(t => t.EmployeeId, type: typeof(EmployeesType));
+            Field(t => t.EmployeeId, type: typeof(IdGraphType));
             Field(t => t.TerritoryId);
         }
     }

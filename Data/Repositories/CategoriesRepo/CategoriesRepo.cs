@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using graphqldemo.Models;
@@ -29,7 +30,16 @@ namespace graphqldemo.Data.Repositories.CategoriesRepo
 
         public async Task<Categories> GetOne(int id)
         {
-            return await _dbContext.Categories.FirstOrDefaultAsync(p => p.CategoryId == id);
+            return await _dbContext.Categories.OrderBy(p => p.CategoryId == id).FirstAsync();
+        }
+
+        public async Task<Categories> GetNames(string categoryName)
+        {
+            Categories something = await _dbContext.Categories.Where(p => p.CategoryName == categoryName).FirstOrDefaultAsync();
+            Console.WriteLine(something);
+            return something;
+           
+            
         }
     }
 }

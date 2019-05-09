@@ -9,5 +9,6 @@ namespace graphqldemo.Data.Repositories.OrdersRepo
     public interface IOrdersRepo
     {
         Task<IList<Orders>> GetAllAsync();
+        Task<Orders> GetOne(int id);
     }
 }

@@ -13,7 +13,7 @@ namespace graphqldemo.GraphQL.Types
         public OrdersType( OrderDetailsRepo orderDetailsRepo)
         {
             Field(t => t.OrderId);
-            Field(t => t.CustomerId, type:typeof(CustomersType));
+            Field(t => t.CustomerId, type:typeof(IdGraphType));
             Field(t => t.EmployeeId, type:typeof(IdGraphType));
             Field(t => t.OrderDate, type:typeof(DateGraphType));
             Field(t => t.RequiredDate, type: typeof(DateGraphType));

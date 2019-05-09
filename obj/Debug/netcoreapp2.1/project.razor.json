@@ -2676,7 +2676,7 @@
         }
       }
     ],
-    "CSharpLanguageVersion": 703
+    "CSharpLanguageVersion": 702
   },
   "RootNamespace": "graphqldemo",
   "Documents": []

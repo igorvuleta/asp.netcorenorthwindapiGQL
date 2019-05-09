@@ -40,12 +40,14 @@ namespace graphqldemo.GraphQL.Query
             Field<ProductType>(
                 "product",
                 
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>
+                arguments: new QueryArguments(new QueryArgument<IdGraphType>
                     { Name = "id" }),
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
+                    
                     return productRepository.GetOne(id);
+
                 }
 
                 
@@ -61,7 +63,7 @@ namespace graphqldemo.GraphQL.Query
 
             Field<SupplierType>(
                 "supplier",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>
+                arguments: new QueryArguments(new QueryArgument<IdGraphType>
                 { Name = "id" }),
 
                 resolve: context =>
@@ -80,13 +82,35 @@ namespace graphqldemo.GraphQL.Query
                 });
             Field<CategoriesType>(
                 "Category",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>
-                { Name = "id" }),
+                arguments: new QueryArguments(
+                    new QueryArgument<IdGraphType>() { Name = "id"},
+                    new QueryArgument<StringGraphType>() { Name = "filter"}),
+
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
-                    return categoriesRepo.GetOne(id);
+                    if (id != null)
+                    {
+                        return categoriesRepo.GetOne(id);
+                    }
+                    
+
+                    var categoryName = context.GetArgument<string>("filter");
+                    if (categoryName != null)
+                    {
+                        return categoriesRepo.GetNames(categoryName);
+                    }
+                    return null;
                 });
+            //Field<CategoriesType>(
+            //    "CategoryName",
+            //    arguments: new QueryArguments(new QueryArgument<NonNullGraphType<StringGraphType>>
+            //    { Name = "filter" }),
+            //    resolve:  context =>
+            //    {
+            //        var categoryName = context.GetArgument<string>("filter");
+            //        return  categoriesRepo.GetNames(categoryName);
+            //    });
 
 
             Field<ListGraphType<OrderDetailsType>, IEnumerable<OrderDetails>>()
@@ -109,7 +133,7 @@ namespace graphqldemo.GraphQL.Query
                 });
             Field<OrdersType>(
                 "order",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>
+                arguments: new QueryArguments(new QueryArgument<IdGraphType>
                 { Name = "id"}),
                 resolve: context =>
                 {
@@ -137,7 +161,7 @@ namespace graphqldemo.GraphQL.Query
                 });
             Field<CustomersType>(
                 "Customer",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>
+                arguments: new QueryArguments(new QueryArgument<IdGraphType>
                 { Name = "id" }),
                 resolve: context =>
                 {
@@ -176,7 +200,7 @@ namespace graphqldemo.GraphQL.Query
                 });
             Field<EmployeesType>(
                 "Employee",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>
+                arguments: new QueryArguments(new QueryArgument<IdGraphType>
                 { Name = "id" }),
                 resolve: context =>
                 {

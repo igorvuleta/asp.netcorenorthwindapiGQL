@@ -23,7 +23,7 @@ namespace graphqldemo.Data.Repositories.CustomersRepo
 
         public async Task<Customers> GetOne(string id)
         {
-            return await _dbContext.Customers.FirstOrDefaultAsync(p => p.CustomerId == id);
+            return await _dbContext.Customers.OrderBy(p => p.CustomerId == id).FirstOrDefaultAsync();
         }
     }
 }

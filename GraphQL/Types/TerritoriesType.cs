@@ -13,7 +13,7 @@ namespace graphqldemo.GraphQL.Types
         {
             Field(t => t.TerritoryId);
             Field(t => t.TerritoryDescription);
-            Field(t => t.RegionId, type:typeof(RegionType));
+            Field(t => t.RegionId, type:typeof(IdGraphType));
         }
     }
 }

@@ -13,21 +13,23 @@ namespace graphqldemo.GraphQL.Types
 {
     public class CategoriesType : ObjectGraphType<Categories>
     {
-        public CategoriesType(  ProductRepository productRepository)
+        public CategoriesType(  ProductRepository productRepository, CategoriesRepo categoriesRepo)
         {
             Field(t => t.CategoryId, type:typeof(IdGraphType));
             Field(t => t.CategoryName);
             Field(t => t.Description);
             Field(t => t.Picture, type:typeof(ListGraphType<StringGraphType>));
             Field<ListGraphType<ProductType>>(
-                name: "products",
+                name: "product",
 
                 resolve: context => productRepository.GetAllAsync(context.Source.CategoryId)
                 
                 );
-            
+           
 
-            
+
+
+
 
 
 

@@ -25,14 +25,14 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.ReorderLevel, type: typeof(IntGraphType));
             Field(t => t.SupplierId, type: typeof(IdGraphType));
                 
-            Field<ListGraphType<SupplierType>>(
-                name: "Suppliers",
+            Field<SupplierType>(
+                name: "Supplier",
 
-                resolve: context => suppliersRepo.GetAllAsync(context.Source.SupplierId));
-            Field<ListGraphType<OrderDetailsType>>(
+                resolve: context => suppliersRepo.GetOne(context.Source.SupplierId));
+            Field<OrderDetailsType>(
                 name: "OrderDetails",
 
-                resolve: context => orderDetailsRepo.GetAllAsync(context.Source.ProductId));
+                resolve: context => orderDetailsRepo.GetOne(context.Source.ProductId));
 
         }
     }

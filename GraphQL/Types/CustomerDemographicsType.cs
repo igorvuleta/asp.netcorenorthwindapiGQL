@@ -11,7 +11,7 @@ namespace graphqldemo.GraphQL.Types
     {
         public CustomerDemographicsType()
         {
-            Field(t => t.CustomerTypeId, type: typeof(CustomerCustomerDemoType));
+            Field(t => t.CustomerTypeId, type: typeof(IdGraphType));
             Field(t => t.CustomerDesc);
         }
     }

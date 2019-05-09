@@ -34,9 +34,13 @@ namespace graphqldemo.Data.Repositories.SupplierRepo
             return suppliers.ToLookup(r => r.SupplierId);
         }
 
-        public async Task<Suppliers>  GetOne(int id)
+        public async Task<Suppliers>  GetOne(int? id)
         {
-            return await _dbContext.Suppliers.FirstOrDefaultAsync(p => p.SupplierId == id);
+            var getFirst = await _dbContext.Suppliers.SingleAsync(s => s.SupplierId == id);
+
+            return getFirst;
+            
+            //return await _dbContext.Suppliers.FirstOrDefaultAsync(p => p.SupplierId == id);
         }
     }
 }  
