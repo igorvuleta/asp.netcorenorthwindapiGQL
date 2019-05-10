@@ -36,7 +36,7 @@ namespace graphqldemo.Data.Repositories.SupplierRepo
 
         public async Task<Suppliers>  GetOne(int? id)
         {
-            var getFirst = await _dbContext.Suppliers.SingleAsync(s => s.SupplierId == id);
+            var getFirst = await _dbContext.Suppliers.OrderBy(s => s.SupplierId == id).FirstOrDefaultAsync();
 
             return getFirst;
             

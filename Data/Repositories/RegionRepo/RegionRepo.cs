@@ -20,5 +20,10 @@ namespace graphqldemo.Data.Repositories.RegionRepo
         {
             return await _dbContext.Region.ToListAsync();
         }
+
+        public async Task<Region> GetOne(int id)
+        {
+            return await _dbContext.Region.OrderBy(r => r.RegionId == id).FirstOrDefaultAsync();
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using GraphQL.Types;
+using graphqldemo.Data.Repositories.CustomersRepo;
+using graphqldemo.Data.Repositories.EmployeesRepo;
 using graphqldemo.Data.Repositories.OrderDetailsRepo;
 using graphqldemo.Models;
 using System;
@@ -10,7 +12,10 @@ namespace graphqldemo.GraphQL.Types
 {
     public class OrdersType : ObjectGraphType<Orders>
     {
-        public OrdersType( OrderDetailsRepo orderDetailsRepo)
+
+
+
+        public OrdersType( OrderDetailsRepo orderDetailsRepo, CustomersRepo customersRepo, EmployeesRepo employeesRepo)
         {
             Field(t => t.OrderId);
             Field(t => t.CustomerId, type:typeof(IdGraphType));
@@ -28,9 +33,18 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.ShipCountry);
             Field<ListGraphType<OrderDetailsType>>(
 
-                name: "OrderDetails",
+                name: "OrderDetailsList",
                 resolve: context => orderDetailsRepo.GetAllAsync(context.Source.OrderId)
                 );
+            Field<CustomersType>(
+                name: "Customer",
+                resolve: context => customersRepo.GetOne(context.Source.CustomerId)
+                );
+            Field<EmployeesType>(
+                name: "employee",
+                resolve: context => employeesRepo.GetOne(context.Source.EmployeeId)
+                );
+
         }
             
     }

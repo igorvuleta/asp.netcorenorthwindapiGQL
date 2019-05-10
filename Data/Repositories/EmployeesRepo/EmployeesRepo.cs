@@ -19,9 +19,9 @@ namespace graphqldemo.Data.Repositories.EmployeesRepo
         {
             return await _dbContext.Employees.ToListAsync();
         }
-        public async Task<Employees> GetOne(int id)
+        public async Task<Employees> GetOne(int? id)
         {
-            return await _dbContext.Employees.OrderBy(p => p.EmployeeId == id).FirstOrDefaultAsync();
+            return await _dbContext.Employees.OrderBy(p => p.EmployeeId == id).FirstAsync();
         }
     }
 }

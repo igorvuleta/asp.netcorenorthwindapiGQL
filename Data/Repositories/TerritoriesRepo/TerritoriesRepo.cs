@@ -14,9 +14,22 @@ namespace graphqldemo.Data.Repositories.TerritoriesRepo
         {
             _dbContext = dbContext;
         }
+        public async Task<IList<Territories>> GetAllAsync(int regionId)
+        {
+            return await _dbContext.Territories.ToListAsync();
+        }
         public async Task<IList<Territories>> GetAllAsync()
         {
             return await _dbContext.Territories.ToListAsync();
+        }
+
+        public async Task<Territories> GetOne(string id)
+        {
+            return await _dbContext.Territories.OrderBy(t => t.TerritoryId == id).FirstOrDefaultAsync();
+        }
+        public async Task<Territories> GetOne(int id)
+        {
+            return await _dbContext.Territories.OrderBy(t => t.RegionId == id).FirstOrDefaultAsync();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace graphqldemo.GraphQL.Types
 
                 resolve: context => suppliersRepo.GetOne(context.Source.SupplierId));
             Field<OrderDetailsType>(
-                name: "OrderDetails",
+                name: "OrderDetailsList",
 
                 resolve: context => orderDetailsRepo.GetOne(context.Source.ProductId));
 

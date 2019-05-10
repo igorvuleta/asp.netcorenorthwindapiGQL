@@ -8,6 +8,7 @@ namespace graphqldemo.Data.Repositories.TerritoriesRepo
 {
     public interface ITerritoriesRepo
     {
-        Task<IList<Territories>> GetAllAsync();
+        Task<IList<Territories>> GetAllAsync(int regionId);
+        Task<Territories> GetOne(string id);
     }
 }

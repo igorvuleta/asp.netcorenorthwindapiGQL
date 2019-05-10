@@ -19,5 +19,10 @@ namespace graphqldemo.Data.Repositories.ShippersRepo
         {
             return await _dbContext.Shippers.ToListAsync();
         }
+
+        public async Task<Shippers> GetOne(int id)
+        {
+            return await _dbContext.Shippers.OrderBy(s => s.ShipperId == id).FirstOrDefaultAsync();
+        }
     }
 }

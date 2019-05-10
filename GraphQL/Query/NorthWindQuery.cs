@@ -102,17 +102,6 @@ namespace graphqldemo.GraphQL.Query
                     }
                     return null;
                 });
-            //Field<CategoriesType>(
-            //    "CategoryName",
-            //    arguments: new QueryArguments(new QueryArgument<NonNullGraphType<StringGraphType>>
-            //    { Name = "filter" }),
-            //    resolve:  context =>
-            //    {
-            //        var categoryName = context.GetArgument<string>("filter");
-            //        return  categoriesRepo.GetNames(categoryName);
-            //    });
-
-
             Field<ListGraphType<OrderDetailsType>, IEnumerable<OrderDetails>>()
                 .Name("OrderDetails")
                 .Description("This table holds all order details, and is in a relationship with the products!")
@@ -122,6 +111,17 @@ namespace graphqldemo.GraphQL.Query
                     return await loader.LoadAsync();
 
                 });
+            Field<OrderDetailsType>(
+                "OrderDetail",
+                arguments: new QueryArguments(new QueryArgument<IdGraphType>
+                { Name = "id" }),
+
+                resolve: context =>
+                {
+                    var id = context.GetArgument<int>("id");
+                    return orderdetailsrepo.GetOne(id);
+                }
+                );
             Field<ListGraphType<OrdersType>, IEnumerable<Orders>>()
                 .Name("Orders")
                 .Description("This table holds all orders and is in relationship with order details and customers tables!")
@@ -139,6 +139,16 @@ namespace graphqldemo.GraphQL.Query
                 {
                     var id = context.GetArgument<int>("id");
                     return ordersrepo.GetOne(id);
+                }
+                );
+            Field<ShippersType>(
+                "shipper",
+                arguments: new QueryArguments(new QueryArgument<IdGraphType>
+                { Name = "id" }),
+                resolve: context =>
+                {
+                    var id = context.GetArgument<int>("id");
+                    return shippersrepo.GetOne(id);
                 }
                 );
             Field<ListGraphType<ShippersType>, IEnumerable<Shippers>>()
@@ -208,15 +218,7 @@ namespace graphqldemo.GraphQL.Query
                     return employeesrepo.GetOne(id);
                 }
                 );
-            Field<ListGraphType<EmployeeTerritoriesType>, IEnumerable<EmployeeTerritories>>()
-               .Name("EmployeesTerritories")
-               .Description("This table holds employee territories and it is related to the employee table!")
-                .ResolveAsync(async ctx =>
-                {
-                    var loader = accessor.Context.GetOrAddLoader("GetAllEmployeesTerritories", () => employeterritoriesRepo.GetAllAsync());
-                    return await loader.LoadAsync();
-
-                });
+            
             Field<ListGraphType<TerritoriesType>, IEnumerable<Territories>>()
               .Name("Territories")
               .Description("Territories table holds the region and territories descriptions and it is realted to the region table!")
@@ -226,6 +228,26 @@ namespace graphqldemo.GraphQL.Query
                     return await loader.LoadAsync();
 
                 });
+            Field<EmployeeTerritoriesType>(
+               "EmployeeTerritory",
+               arguments: new QueryArguments(new QueryArgument<IdGraphType>
+               { Name = "id" }),
+               resolve: context =>
+               {
+                   var id = context.GetArgument<string>("id");
+                   return employeterritoriesRepo.GetOne(id);
+               }
+               );
+            Field<TerritoriesType>(
+                "Territory",
+                arguments: new QueryArguments(new QueryArgument<IdGraphType>
+                { Name = "id" }),
+                resolve: context =>
+                {
+                    var id = context.GetArgument<int>("id");
+                    return territoriesrepo.GetOne(id);
+                }
+                );
             Field<ListGraphType<RegionType>>()
              .Name("Regions")
              .Description("this table is holds region descriptions and it is not related to any other table in the database!")
@@ -235,6 +257,16 @@ namespace graphqldemo.GraphQL.Query
                     return await loader.LoadAsync();
 
                 });
+            Field<RegionType>(
+                "Region",
+                arguments: new QueryArguments(new QueryArgument<IdGraphType>
+                { Name = "id" }),
+                resolve: context =>
+                {
+                    var id = context.GetArgument<int>("id");
+                    return regionsrepo.GetOne(id);
+                }
+                );
 
         }
     }

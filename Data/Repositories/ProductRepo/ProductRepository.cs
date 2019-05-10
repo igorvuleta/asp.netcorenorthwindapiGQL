@@ -19,7 +19,7 @@ namespace graphqldemo.Data.Repositories
 
         public async Task<IList<Products>> GetAllAsync(int categoryId)
         {
-            return await _dbContext.Products.ToListAsync();
+            return await _dbContext.Products.OrderBy(p => p.CategoryId == categoryId).ToListAsync();
         }
         public async Task<Products> AddProduct(Products product)
         {

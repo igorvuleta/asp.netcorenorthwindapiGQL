@@ -26,7 +26,7 @@ namespace graphqldemo.Data.Repositories.OrderDetailsRepo
         }
         public async Task<OrderDetails> GetOne(int id)
         {
-            return await _dbContext.OrderDetails.FirstOrDefaultAsync(p => p.ProductId == id);
+            return await _dbContext.OrderDetails.OrderBy(p => p.OrderId == id).FirstOrDefaultAsync();
         }
         public void RemoveEntry(OrderDetails orderDetails)
         {

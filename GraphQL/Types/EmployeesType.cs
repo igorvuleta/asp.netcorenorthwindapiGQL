@@ -1,4 +1,5 @@
 ﻿using GraphQL.Types;
+using graphqldemo.Data.Repositories.EmployeeTerritoriesRepo;
 using graphqldemo.Data.Repositories.OrdersRepo;
 using graphqldemo.Models;
 using System;
@@ -10,7 +11,7 @@ namespace graphqldemo.GraphQL.Types
 {
     public class EmployeesType : ObjectGraphType<Employees>
     {
-        public EmployeesType(OrdersRepo ordersRepo)
+        public EmployeesType(OrdersRepo ordersRepo, EmployeeTerritoriesRepo employeeTerritoriesRepo)
         {
             Field(t => t.EmployeeId, type:typeof(IdGraphType));
             Field(t => t.LastName);
@@ -32,8 +33,11 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.PhotoPath);
             Field<ListGraphType<OrdersType>>(
                 name: "OrdersList",
-                resolve: context => context.Source.Orders
+                resolve: context => ordersRepo.GetAllAsync(context.Source.Orders)
                 );
+            Field<ListGraphType<EmployeeTerritoriesType>>(
+                name: "Employeeteritories",
+                resolve: context => employeeTerritoriesRepo.GetAllAsync(context.Source.EmployeeTerritories));
         }
     }
 }

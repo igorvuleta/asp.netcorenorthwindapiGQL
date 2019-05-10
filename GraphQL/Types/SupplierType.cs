@@ -1,5 +1,6 @@
 ﻿using GraphQL.DataLoader;
 using GraphQL.Types;
+using graphqldemo.Data.Repositories;
 using graphqldemo.Data.Repositories.SupplierRepo;
 using graphqldemo.Models;
 using System;
@@ -11,7 +12,7 @@ namespace graphqldemo.GraphQL.Types
 {
     public class SupplierType : ObjectGraphType<Suppliers>
     {
-        public SupplierType(IDataLoaderContextAccessor dataLoaderAccessor, SupplierRepo suppliersRepo)
+        public SupplierType( SupplierRepo suppliersRepo, ProductRepository productRepository)
         {
             Field(t => t.SupplierId, nullable:false, type:typeof(IdGraphType));
             Field(t => t.CompanyName);
@@ -26,13 +27,9 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.Fax, nullable:true);
             Field(t => t.HomePage, nullable:true);
             Field<ListGraphType<ProductType>>(
-                "products",
-                resolve: context =>
-                {
-                    var loader = dataLoaderAccessor.Context.GetOrAddCollectionBatchLoader<int, Suppliers>(
-                        "GetSuppliersBySupplierId", suppliersRepo.GetAllId);
-                    return loader.LoadAsync(context.Source.SupplierId);
-                }
+                "product",
+                resolve: context => productRepository.GetAllAsync(context.Source.SupplierId)
+                
                 
                 
                 );

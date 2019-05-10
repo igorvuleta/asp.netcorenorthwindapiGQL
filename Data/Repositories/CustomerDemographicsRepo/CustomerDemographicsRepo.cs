@@ -16,6 +16,10 @@ namespace graphqldemo.Data.Repositories.CustomerDemographicsRepo
             _dbContext = dbContext;
         }
 
+        public async Task<IList<CustomerDemographics>> GetAllAsync(ICollection<CustomerCustomerDemo> customerCustomerDemo)
+        {
+            return await _dbContext.CustomerDemographics.ToListAsync();
+        }
         public async Task<IList<CustomerDemographics>> GetAllAsync()
         {
             return await _dbContext.CustomerDemographics.ToListAsync();

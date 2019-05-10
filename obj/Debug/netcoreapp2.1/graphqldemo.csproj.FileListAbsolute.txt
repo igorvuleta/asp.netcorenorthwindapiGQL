@@ -25,3 +25,4 @@ C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcor
 C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.RazorTargetAssemblyInfo.cache
 C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.dll
 C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.pdb
+C:\Users\ivuleta\Desktop\graphqldemo\asp.netcorenorthwindapiGQL\obj\Debug\netcoreapp2.1\graphqldemo.csprojAssemblyReference.cache
