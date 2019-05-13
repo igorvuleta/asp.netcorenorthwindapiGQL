@@ -40,7 +40,21 @@ namespace graphqldemo.Data.Repositories.SupplierRepo
 
             return getFirst;
             
-            //return await _dbContext.Suppliers.FirstOrDefaultAsync(p => p.SupplierId == id);
+        }
+        public async Task<Suppliers> GetOneArgs(int? id)
+        {
+            var getFirst = await _dbContext.Suppliers.Where(s => s.SupplierId == id).FirstOrDefaultAsync();
+
+            return getFirst;
+
+        }
+        public async Task<Suppliers> GetCities(string cityName)
+        {
+            Suppliers something = await _dbContext.Suppliers.Where(p => p.City.StartsWith (cityName)).FirstOrDefaultAsync();
+            Console.WriteLine(something);
+            return something;
+
+
         }
     }
 }  

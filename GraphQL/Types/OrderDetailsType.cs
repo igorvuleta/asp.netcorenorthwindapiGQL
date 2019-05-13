@@ -20,7 +20,16 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.Discount);
             Field<OrdersType>(
                 name: "Order",
-                resolve: context => ordersRepo.GetOne(context.Source.OrderId)
+                arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
+
+
+
+                resolve: context =>
+                {
+                    var id = context.GetArgument<int>("id");
+                    return ordersRepo.GetOne(context.Source.OrderId);
+                }
+                
                 );
             Field<ProductType>(
                 name:"Product",

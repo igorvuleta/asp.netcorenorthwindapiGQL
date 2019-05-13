@@ -21,10 +21,21 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.Picture, type:typeof(ListGraphType<StringGraphType>));
             Field<ListGraphType<ProductType>>(
                 name: "product",
+                arguments:new QueryArguments(
+                    new QueryArgument<IntGraphType>() { Name = "id"}
+                    
 
-                resolve: context => productRepository.GetAllAsync(context.Source.CategoryId)
-                
-                );
+                    ),
+
+                resolve: context =>
+                {
+                    var id = context.GetArgument<int>("id");
+                   
+                        return productRepository.GetAllAsync(context.Source.CategoryId);
+
+
+
+                });
            
 
 

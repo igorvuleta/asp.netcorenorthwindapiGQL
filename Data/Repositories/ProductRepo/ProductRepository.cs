@@ -58,9 +58,23 @@ namespace graphqldemo.Data.Repositories
             _dbContext.SaveChanges();
         }
 
-        public async Task<Products> GetOne(int? id)
+        public async Task<Products> GetOne(int id )
         {
-            return await _dbContext.Products.OrderBy(p => p.ProductId == id).FirstOrDefaultAsync();
+            return await _dbContext.Products.OrderBy(p => p.ProductId == id  ).FirstOrDefaultAsync();
+            
+        }
+        public async Task<Products> GetOneArgs(int id)
+        {
+            return await _dbContext.Products.Where(p => p.ProductId == id).FirstOrDefaultAsync();
+
+        }
+        public async Task<Products> GetNames(string productName)
+        {
+            Products something = await _dbContext.Products.Where(p => p.ProductName.StartsWith(productName)).FirstOrDefaultAsync();
+            Console.WriteLine(something);
+            return something;
+
+
         }
     }
         

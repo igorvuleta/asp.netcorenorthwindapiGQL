@@ -30,12 +30,16 @@ namespace graphqldemo.Data.Repositories.CategoriesRepo
 
         public async Task<Categories> GetOne(int id)
         {
-            return await _dbContext.Categories.OrderBy(p => p.CategoryId == id).FirstAsync();
+            return await _dbContext.Categories.OrderBy(p => p.CategoryId == id).FirstOrDefaultAsync();
+        }
+        public async Task<Categories> GetOneArgs(int id)
+        {
+            return await _dbContext.Categories.Where(p => p.CategoryId == id).FirstOrDefaultAsync();
         }
 
         public async Task<Categories> GetNames(string categoryName)
         {
-            Categories something = await _dbContext.Categories.Where(p => p.CategoryName == categoryName).FirstOrDefaultAsync();
+            Categories something = await _dbContext.Categories.Where(p => p.CategoryName == categoryName).SingleOrDefaultAsync();
             Console.WriteLine(something);
             return something;
            

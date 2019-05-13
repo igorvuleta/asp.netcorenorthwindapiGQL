@@ -40,18 +40,30 @@ namespace graphqldemo.GraphQL.Query
             Field<ProductType>(
                 "product",
                 
-                arguments: new QueryArguments(new QueryArgument<IdGraphType>
-                    { Name = "id" }),
+                arguments:  new QueryArguments(
+                    new QueryArgument<IdGraphType>() { Name = "id" },
+                    new QueryArgument<StringGraphType>() { Name = "filter" }),
+
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
-                    
+
+
+
+                    if (id != 0)
+                    {
+                        return productRepository.GetOneArgs(id);
+                    }
+
+
+                    var productName = context.GetArgument<string>("filter");
+                    if (productName != null)
+                    {
+                        return productRepository.GetNames(productName);
+                    }
                     return productRepository.GetOne(id);
 
-                }
-
-                
-                );
+                });
             Field<ListGraphType<SupplierType>, IEnumerable<Suppliers>>()
                  .Name("Suppliers")
                  .Description("This table holds all suppliers in a relationship with products!")
@@ -63,15 +75,30 @@ namespace graphqldemo.GraphQL.Query
 
             Field<SupplierType>(
                 "supplier",
-                arguments: new QueryArguments(new QueryArgument<IdGraphType>
-                { Name = "id" }),
+                arguments: new QueryArguments(
+                    new QueryArgument<IdGraphType>() { Name = "id" },
+                    new QueryArgument<StringGraphType>() { Name = "filterCity" }),
 
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
+
+
+
+                    if (id != 0)
+                    {
+                        return supplierRepo.GetOneArgs(id);
+                    }
+
+
+                    var cityName = context.GetArgument<string>("filterCity");
+                    if (cityName != null)
+                    {
+                        return supplierRepo.GetCities(cityName);
+                    }
                     return supplierRepo.GetOne(id);
-                }
-                );
+
+                });
             Field<ListGraphType<CategoriesType>, IEnumerable<Categories>>()
                 .Name("Categories")
                 .Description("This table holds all Categories and is in a relationship with products!")
@@ -89,9 +116,9 @@ namespace graphqldemo.GraphQL.Query
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
-                    if (id != null)
+                    if (id != 0)
                     {
-                        return categoriesRepo.GetOne(id);
+                        return categoriesRepo.GetOneArgs(id);
                     }
                     
 
@@ -100,7 +127,7 @@ namespace graphqldemo.GraphQL.Query
                     {
                         return categoriesRepo.GetNames(categoryName);
                     }
-                    return null;
+                    return categoriesRepo.GetOne(id); ;
                 });
             Field<ListGraphType<OrderDetailsType>, IEnumerable<OrderDetails>>()
                 .Name("OrderDetails")
