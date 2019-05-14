@@ -11,6 +11,6 @@ namespace graphqldemo.Models
         public string Description { get; set; }
         public byte[] Picture { get; set; }
 
-        public List<Products> Products { get; set; }
+        public ICollection<Products> Products { get; set; }
     }
 }

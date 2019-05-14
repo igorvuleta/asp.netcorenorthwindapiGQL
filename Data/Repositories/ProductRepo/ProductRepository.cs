@@ -70,9 +70,8 @@ namespace graphqldemo.Data.Repositories
         }
         public async Task<Products> GetNames(string productName)
         {
-            Products something = await _dbContext.Products.Where(p => p.ProductName.StartsWith(productName)).FirstOrDefaultAsync();
-            Console.WriteLine(something);
-            return something;
+            return await _dbContext.Products.Where(p => p.ProductName.StartsWith(productName)).FirstOrDefaultAsync();
+            
 
 
         }

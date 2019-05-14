@@ -27,7 +27,7 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.Fax, nullable:true);
             Field(t => t.HomePage, nullable:true);
             Field<ListGraphType<ProductType>>(
-                "product",
+                "products",
                 resolve: context => productRepository.GetAllAsync(context.Source.SupplierId)
                 
                 

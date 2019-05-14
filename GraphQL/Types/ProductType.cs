@@ -1,4 +1,5 @@
 ﻿using GraphQL.Types;
+using graphqldemo.Data.Repositories;
 using graphqldemo.Data.Repositories.CategoriesRepo;
 using graphqldemo.Data.Repositories.OrderDetailsRepo;
 using graphqldemo.Data.Repositories.SupplierRepo;
@@ -12,27 +13,45 @@ namespace graphqldemo.GraphQL.Types
 {
     public class ProductType : ObjectGraphType<Products>
     {
-        public ProductType(CategoriesRepo categoriesRepo, SupplierRepo suppliersRepo, OrderDetailsRepo orderDetailsRepo )
+        public ProductType(CategoriesRepo categoriesRepo, SupplierRepo suppliersRepo, OrderDetailsRepo orderDetailsRepo, ProductRepository productRepository)
         {
-            Field(t => t.ProductId,nullable:false, type:typeof(IdGraphType));
+            Field(t => t.ProductId, nullable: false, type: typeof(IdGraphType));
             Field(t => t.ProductName).Description("Product name");
             Field(t => t.UnitPrice, nullable: true);
             Field(t => t.UnitsInStock, type: typeof(IntGraphType));
             Field(t => t.UnitsOnOrder, type: typeof(IntGraphType));
             Field(t => t.QuantityPerUnit);
-            Field(t => t.CategoryId, type:typeof(IntGraphType));
+            Field(t => t.CategoryId, type: typeof(IntGraphType));
             Field(t => t.Discontinued);
             Field(t => t.ReorderLevel, type: typeof(IntGraphType));
             Field(t => t.SupplierId, type: typeof(IdGraphType));
-                
+
             Field<SupplierType>(
                 name: "Supplier",
 
-                resolve: context => suppliersRepo.GetOne(context.Source.SupplierId));
-            Field<OrderDetailsType>(
+                resolve: context => suppliersRepo.GetOne(context.Source.ProductId));
+            Field<ListGraphType<OrderDetailsType>>(
                 name: "OrderDetailsList",
 
-                resolve: context => orderDetailsRepo.GetOne(context.Source.ProductId));
+                arguments: new QueryArguments(
+                    new QueryArgument<IntGraphType>() { Name = "id" }
+                    
+                    ),
+                resolve: context => {
+
+                    var id = context.GetArgument<int?>("id");
+
+                    if (id == null)
+                    {
+                        var getID = orderDetailsRepo.GetOneArgs(id);
+                        return getID;
+                    }
+
+                    return orderDetailsRepo.GetAllAsync(context.Source.ProductId);
+
+
+
+                });
 
         }
     }

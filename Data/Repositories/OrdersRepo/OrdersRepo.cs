@@ -25,7 +25,7 @@ namespace graphqldemo.Data.Repositories.OrdersRepo
         }
         public async Task<Orders> GetOne(int id)
         {
-            return await _dbContext.Orders.OrderBy(p => p.OrderId == id ).FirstOrDefaultAsync();
+            return await _dbContext.Orders.OrderBy(p => p.OrderId == id).FirstOrDefaultAsync();
         }
         public async Task<Orders> GetOne(string id)
         {

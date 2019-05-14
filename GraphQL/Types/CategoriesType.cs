@@ -19,10 +19,11 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.CategoryName);
             Field(t => t.Description);
             Field(t => t.Picture, type:typeof(ListGraphType<StringGraphType>));
-            Field<ListGraphType<ProductType>>(
+            Field<ProductType>(
                 name: "product",
                 arguments:new QueryArguments(
-                    new QueryArgument<IntGraphType>() { Name = "id"}
+                    new QueryArgument<IntGraphType>() { Name = "id"},
+                    new QueryArgument<StringGraphType>() { Name = "filterName"}
                     
 
                     ),
@@ -30,8 +31,13 @@ namespace graphqldemo.GraphQL.Types
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
-                   
-                        return productRepository.GetAllAsync(context.Source.CategoryId);
+                    var productName = context.GetArgument<string>("filterName");
+                    if (productName != null)
+                    {
+                        return productRepository.GetNames(productName);
+                    }
+
+                    return productRepository.GetOne(context.Source.CategoryId);
 
 
 
