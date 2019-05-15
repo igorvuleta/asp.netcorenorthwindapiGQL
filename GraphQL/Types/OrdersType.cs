@@ -32,9 +32,21 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.ShipPostalCode);
             Field(t => t.ShipCountry);
             Field<ListGraphType<OrderDetailsType>>(
+                 "orderList",
+                 arguments: new QueryArguments(new QueryArgument<IdGraphType> { Name = "orderId" }),
+                 resolve: context =>
+                 {
+                     var id = context.GetArgument<int>("orderId");
 
-                name: "OrderDetailsList",
-                resolve: context => orderDetailsRepo.GetAllAsync(context.Source.OrderId)
+                     if (id != 0)
+                     {
+                         return orderDetailsRepo.GetOneForOrders(id);
+                     }
+
+
+                     return orderDetailsRepo.GetAllAsync();
+                 }
+
                 );
             Field<CustomersType>(
                 name: "Customer",

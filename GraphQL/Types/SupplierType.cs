@@ -27,11 +27,21 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.Fax, nullable:true);
             Field(t => t.HomePage, nullable:true);
             Field<ListGraphType<ProductType>>(
-                "products",
-                resolve: context => productRepository.GetAllAsync(context.Source.SupplierId)
-                
-                
-                
+                "productList",
+                 arguments: new QueryArguments(new QueryArgument<StringGraphType> { Name = "productName" }),
+                 resolve: context =>
+                 {
+                     var productName = context.GetArgument<string>("productName");
+
+                     if (productName != null)
+                     {
+                         return productRepository.GetOneFor(productName);
+                     }
+
+
+                     return productRepository.GetAllAsync();
+                 }
+
                 );
 
         }

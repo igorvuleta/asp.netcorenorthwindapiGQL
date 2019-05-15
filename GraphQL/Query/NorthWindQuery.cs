@@ -46,13 +46,13 @@ namespace graphqldemo.GraphQL.Query
 
                 resolve: context =>
                 {
-                    var id = context.GetArgument<int>("id");
+                    var CategoryID = context.GetArgument<int>("id");
 
+                    
 
-
-                    if (id != 0)
+                    if (CategoryID != 0)
                     {
-                        return productRepository.GetOneArgs(id);
+                        return productRepository.GetOneArgs(CategoryID);
                     }
 
 
@@ -61,7 +61,7 @@ namespace graphqldemo.GraphQL.Query
                     {
                         return productRepository.GetNames(productName);
                     }
-                    return productRepository.GetOne(id);
+                    return productRepository.GetOne(CategoryID);
 
                 });
             Field<ListGraphType<SupplierType>, IEnumerable<Suppliers>>()
@@ -116,17 +116,17 @@ namespace graphqldemo.GraphQL.Query
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
-                    if (id != 0)
-                    {
-                        return categoriesRepo.GetOneArgs(id);
-                    }
+                    //if (id != 0)
+                    //{
+                    //    return categoriesRepo.GetOneArgs(id);
+                    //}
                     
 
-                    var categoryName = context.GetArgument<string>("filter");
-                    if (categoryName != null)
-                    {
-                        return categoriesRepo.GetNames(categoryName);
-                    }
+                    //var categoryName = context.GetArgument<string>("filter");
+                    //if (categoryName != null)
+                    //{
+                    //    return categoriesRepo.GetNames(categoryName);
+                    //}
                     return categoriesRepo.GetOne(id); ;
                 });
             Field<ListGraphType<OrderDetailsType>, IEnumerable<OrderDetails>>()

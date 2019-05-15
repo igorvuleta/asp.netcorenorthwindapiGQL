@@ -29,9 +29,25 @@ namespace graphqldemo.GraphQL.Types
 
                 resolve: context => customercustomerDemoRepo.GetOne(context.Source.CustomerId));
             Field<ListGraphType<OrdersType>>(
-                name: "OrdersList",
+                "orderList",
+                 arguments: new QueryArguments(new QueryArgument<IdGraphType> { Name = "orderId" }),
 
-                resolve: context => ordersRepo.GetOne(context.Source.CustomerId));
+
+                resolve: context =>
+
+
+                 {
+                     var id = context.GetArgument<int>("orderId");
+
+                     if (id != 0)
+                     {
+                         return ordersRepo.GetOneForOrders(id);
+                     }
+
+
+                     return ordersRepo.GetAllAsync();
+                 });
+                
         }
     }
 }

@@ -31,27 +31,26 @@ namespace graphqldemo.GraphQL.Types
 
                 resolve: context => suppliersRepo.GetOne(context.Source.ProductId));
             Field<ListGraphType<OrderDetailsType>>(
-                name: "OrderDetailsList",
+                 "orderList",
+                 arguments: new QueryArguments(new QueryArgument<IdGraphType> { Name = "productId" }),
+                 resolve: context =>
+                 {
+                     var id = context.GetArgument<int>("productId");
 
-                arguments: new QueryArguments(
-                    new QueryArgument<IntGraphType>() { Name = "id" }
-                    
-                    ),
-                resolve: context => {
-
-                    var id = context.GetArgument<int?>("id");
-
-                    if (id == null)
-                    {
-                        var getID = orderDetailsRepo.GetOneArgs(id);
-                        return getID;
-                    }
-
-                    return orderDetailsRepo.GetAllAsync(context.Source.ProductId);
+                     if(id != 0)
+                     {
+                         return orderDetailsRepo.GetOneFor(id);
+                     }
 
 
+                     return orderDetailsRepo.GetAllAsync();
+                 }
+                
+                );
+                
+                
 
-                });
+                
 
         }
     }

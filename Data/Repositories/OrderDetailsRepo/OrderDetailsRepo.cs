@@ -15,14 +15,19 @@ namespace graphqldemo.Data.Repositories.OrderDetailsRepo
         {
             _dbContext = dbContext;
         }
-        public async Task<IList<OrderDetails>> GetAllAsync(int productId)
+        public async Task<IList<OrderDetails>> GetAllAsync()
         {
             return await _dbContext.OrderDetails.ToListAsync();
         }
 
-        public async Task<IList<OrderDetails>> GetAllAsync()
+        public async Task<IEnumerable<OrderDetails>> GetOneFor(int id)
         {
-            return await _dbContext.OrderDetails.ToListAsync();
+            return await _dbContext.OrderDetails.Where(p => p.ProductId == id).ToListAsync();
+
+        }
+        public async Task<IEnumerable<OrderDetails>> GetOneForOrders(int id)
+        {
+            return await _dbContext.OrderDetails.Where(p => p.OrderId == id).ToListAsync();
         }
         public async Task<OrderDetails> GetOne(int id)
         {
