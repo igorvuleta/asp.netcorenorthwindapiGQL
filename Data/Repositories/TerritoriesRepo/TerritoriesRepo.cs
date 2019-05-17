@@ -14,9 +14,9 @@ namespace graphqldemo.Data.Repositories.TerritoriesRepo
         {
             _dbContext = dbContext;
         }
-        public async Task<IList<Territories>> GetAllAsync(int regionId)
+        public async Task<IList<Territories>> GetAllAsync(int id)
         {
-            return await _dbContext.Territories.ToListAsync();
+            return await _dbContext.Territories.Where(r => r.RegionId.Equals(id)).ToListAsync();
         }
         public async Task<IList<Territories>> GetAllAsync()
         {

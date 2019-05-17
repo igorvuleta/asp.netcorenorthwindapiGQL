@@ -23,7 +23,7 @@ namespace graphqldemo.Data.Repositories.RegionRepo
 
         public async Task<Region> GetOne(int id)
         {
-            return await _dbContext.Region.OrderBy(r => r.RegionId == id).FirstOrDefaultAsync();
+            return await _dbContext.Region.Where(r => r.RegionId == id).FirstOrDefaultAsync();
         }
     }
 }

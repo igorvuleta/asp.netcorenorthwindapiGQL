@@ -19,7 +19,7 @@ namespace graphqldemo.Data.Repositories
 
         public async Task<IList<Products>> GetAllAsync(int categoryId)
         {
-            return await _dbContext.Products.OrderBy(p => p.CategoryId == categoryId).ToListAsync();
+            return await _dbContext.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
         }
         public async Task<Products> AddProduct(Products product)
         {
@@ -61,12 +61,13 @@ namespace graphqldemo.Data.Repositories
         public async Task<Products> GetOne(int id)
         {
             
-            return await _dbContext.Products.Where(p => p.ProductId == id).FirstOrDefaultAsync();
+            Products product = await _dbContext.Products.LastOrDefaultAsync(p => p.ProductId == 26 );
+            return product;
         }
 
         public async Task<Products> GetOneArgs(int id)
         {
-            return await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId.Equals(id) );
+            return await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == id );
 
         }
         public async Task<Products> GetNames(string productName)

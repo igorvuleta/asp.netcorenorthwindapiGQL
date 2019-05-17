@@ -18,9 +18,10 @@ namespace graphqldemo.Data.Repositories.CategoriesRepo
             _dbContext = dbcontext;
         }
 
-        public async Task<IList<Categories>> GetAllAsync(int productId)
+        public async Task<IList<Products>> GetAllAsync2(int id)
         {
-            return await _dbContext.Categories.ToListAsync();
+            var products = await _dbContext.Products.Where(p => p.CategoryId.Equals(id)).ToListAsync();
+            return products;
         }
 
         public async Task<IList<Categories>> GetAllAsync()
@@ -28,13 +29,11 @@ namespace graphqldemo.Data.Repositories.CategoriesRepo
             return await _dbContext.Categories.ToListAsync();
         }
 
-        public async Task<Categories> GetOne(int CategoryID)
+        public async Task<Categories> GetOne(int id)
         {
             
-
-            Categories categories = await _dbContext.Categories.Where(c => c.CategoryId.Equals(CategoryID)).FirstOrDefaultAsync();
+            Categories categories = await _dbContext.Categories.Where(c => c.CategoryId.Equals(id)).FirstOrDefaultAsync();
             return categories;
-
         }
         
         
@@ -46,8 +45,6 @@ namespace graphqldemo.Data.Repositories.CategoriesRepo
         public async Task<Categories> GetNames(string categoryName)
         {
            return await _dbContext.Categories.Where(p => p.CategoryName.StartsWith(categoryName)).FirstOrDefaultAsync();
-            
-           
             
         }
     }

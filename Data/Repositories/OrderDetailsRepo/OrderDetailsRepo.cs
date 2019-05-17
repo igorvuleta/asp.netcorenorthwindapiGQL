@@ -19,6 +19,14 @@ namespace graphqldemo.Data.Repositories.OrderDetailsRepo
         {
             return await _dbContext.OrderDetails.ToListAsync();
         }
+        public async Task<IList<OrderDetails>> GetOrder(int id)
+        {
+            return await _dbContext.OrderDetails.Where(o => o.OrderId.Equals(id)).ToListAsync();
+        }
+        public async Task<IList<OrderDetails>> GetAllAsyncList(int id)
+        {
+            return await _dbContext.OrderDetails.Where(p =>p.ProductId.Equals(id)).ToListAsync();
+        }
 
         public async Task<IEnumerable<OrderDetails>> GetOneFor(int id)
         {

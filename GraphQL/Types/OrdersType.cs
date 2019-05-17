@@ -44,7 +44,7 @@ namespace graphqldemo.GraphQL.Types
                      }
 
 
-                     return orderDetailsRepo.GetAllAsync();
+                     return orderDetailsRepo.GetOrder(context.Source.OrderId);
                  }
 
                 );
