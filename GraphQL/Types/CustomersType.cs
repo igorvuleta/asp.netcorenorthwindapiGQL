@@ -37,15 +37,12 @@ namespace graphqldemo.GraphQL.Types
 
 
                  {
-                     var id = context.GetArgument<int>("orderId");
+                     var id = context.GetArgument<string>("orderId");
 
-                     if (id != 0)
-                     {
-                         return ordersRepo.GetOneForOrders(id);
-                     }
+                     
 
 
-                     return ordersRepo.GetAllAsync();
+                     return ordersRepo.GetAllAsync(context.Source.CustomerId);
                  });
                 
         }

@@ -31,7 +31,7 @@ namespace graphqldemo.GraphQL.Types
 
                 resolve: context => suppliersRepo.GetOne(context.Source.ProductId));
             Field<ListGraphType<OrderDetailsType>>(
-                 "orderList",
+                 "orderDetailList",
                  arguments: new QueryArguments(new QueryArgument<IdGraphType> { Name = "productId" }),
                  resolve: context =>
                  {

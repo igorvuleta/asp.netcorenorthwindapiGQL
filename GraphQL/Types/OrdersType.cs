@@ -32,7 +32,7 @@ namespace graphqldemo.GraphQL.Types
             Field(t => t.ShipPostalCode);
             Field(t => t.ShipCountry);
             Field<ListGraphType<OrderDetailsType>>(
-                 "orderList",
+                 "orderDetailList",
                  arguments: new QueryArguments(new QueryArgument<IdGraphType> { Name = "orderId" }),
                  resolve: context =>
                  {
