@@ -37,7 +37,7 @@ namespace graphqldemo.GraphQL.Types
                 );
             Field<ListGraphType<EmployeeTerritoriesType>>(
                 name: "Employeeteritories",
-                resolve: context => employeeTerritoriesRepo.GetOne(context.Source.EmployeeId));
+                resolve: context => employeeTerritoriesRepo.GetOneArgs(context.Source.EmployeeId));
         }
     }
 }

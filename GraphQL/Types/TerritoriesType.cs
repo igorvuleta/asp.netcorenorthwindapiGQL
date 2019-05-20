@@ -22,7 +22,7 @@ namespace graphqldemo.GraphQL.Types
                 );
             Field<ListGraphType<EmployeeTerritoriesType>>(
                 "EmployeTerritoriesList",
-                resolve: context => employeeTerritoriesRepo.GetAllAsync(context.Source.TerritoryId)
+                resolve: context => employeeTerritoriesRepo.GetAllAsyncArgs(context.Source.TerritoryId)
                 );
 
         }

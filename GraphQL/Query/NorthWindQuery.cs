@@ -261,8 +261,8 @@ namespace graphqldemo.GraphQL.Query
                { Name = "id" }),
                resolve: context =>
                {
-                   var id = context.GetArgument<string>("id");
-                   return employeterritoriesRepo.GetOne(id);
+                   var id = context.GetArgument<int>("id");
+                   return employeterritoriesRepo.GetOneArgs(id);
                }
                );
             Field<TerritoriesType>(

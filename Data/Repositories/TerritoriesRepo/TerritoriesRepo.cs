@@ -25,7 +25,7 @@ namespace graphqldemo.Data.Repositories.TerritoriesRepo
 
         public async Task<Territories> GetOne(string id)
         {
-            return await _dbContext.Territories.OrderBy(t => t.TerritoryId == id).FirstOrDefaultAsync();
+            return await _dbContext.Territories.Where(t => t.TerritoryId == id).FirstOrDefaultAsync();
         }
         public async Task<Territories> GetOne(int id)
         {

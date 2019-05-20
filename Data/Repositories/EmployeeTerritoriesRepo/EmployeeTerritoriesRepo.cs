@@ -23,17 +23,19 @@ namespace graphqldemo.Data.Repositories.EmployeeTerritoriesRepo
         {
             return await _dbContext.EmployeeTerritories.ToListAsync();
         }
-
-        public async Task<EmployeeTerritories> GetOne(string territoryId)
+        public async Task<IList<EmployeeTerritories>> GetAllAsyncArgs(string territoryId)
         {
-            return await _dbContext.EmployeeTerritories.Where(et => et.TerritoryId.Equals(territoryId)).FirstOrDefaultAsync();
+            return await _dbContext.EmployeeTerritories.Where(et => et.TerritoryId.Equals(territoryId)).ToListAsync();
+        }
+
+        public async Task<IList<EmployeeTerritories>> GetOneArgs(int id)
+
+        {
+            
+            return await _dbContext.EmployeeTerritories.Where(et => et.EmployeeId.Equals(id)).ToListAsync();
         }
 
 
-        //    public async Task<EmployeeTerritories> GetAllAsync()
-        //    {
-        //        return await _dbContext.EmployeeTerritories.ToListAsync();
-        //    }
-        //
+        
     }
 }

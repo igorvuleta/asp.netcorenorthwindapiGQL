@@ -22,7 +22,7 @@ namespace graphqldemo.Data.Repositories.ShippersRepo
 
         public async Task<Shippers> GetOne(int id)
         {
-            return await _dbContext.Shippers.OrderBy(s => s.ShipperId == id).FirstOrDefaultAsync();
+            return await _dbContext.Shippers.Where(s => s.ShipperId == id).FirstOrDefaultAsync();
         }
     }
 }

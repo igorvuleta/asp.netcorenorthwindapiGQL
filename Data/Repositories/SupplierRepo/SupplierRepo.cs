@@ -45,6 +45,7 @@ namespace graphqldemo.Data.Repositories.SupplierRepo
             return getFirst;
             
         }
+       
         public async Task<Suppliers> GetOneArgs(int? id)
         {
             var getFirst = await _dbContext.Suppliers.Where(s => s.SupplierId == id).FirstOrDefaultAsync();

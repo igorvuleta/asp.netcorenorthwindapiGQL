@@ -61,7 +61,7 @@ namespace graphqldemo.Data.Repositories
         public async Task<Products> GetOne(int id)
         {
             
-            Products product = await _dbContext.Products.LastOrDefaultAsync(p => p.ProductId == 26 );
+            Products product = await _dbContext.Products.Where(p => p.ProductId == id ).FirstOrDefaultAsync();
             return product;
         }
 

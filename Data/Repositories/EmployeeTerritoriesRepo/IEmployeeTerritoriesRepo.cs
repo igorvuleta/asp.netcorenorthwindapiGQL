@@ -9,6 +9,7 @@ namespace graphqldemo.Data.Repositories.EmployeeTerritoriesRepo
     public interface IEmployeeTerritoriesRepo
     {
         Task<IList<EmployeeTerritories>> GetAllAsync(string territoryId);
-        Task<EmployeeTerritories> GetOne(string territoryId);
+        Task<IList<EmployeeTerritories>> GetOneArgs(int id);
+     
     }
 }

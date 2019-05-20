@@ -23,10 +23,16 @@ namespace graphqldemo.Data.Repositories.OrdersRepo
         {
             return await _dbContext.Orders.Where(o => o.CustomerId.Equals(id)).ToListAsync();
         }
-        public async Task<IList<Orders>> GetAllAsync(ICollection<Orders> orders)
+        public async Task<IList<Orders>> GetAllAsync(int id)
         {
-            return await _dbContext.Orders.ToListAsync();
+            return await _dbContext.Orders.Where(o => o.ShipVia.Equals(id)).ToListAsync();
         }
+
+        public Task<IList<Orders>> GetAllAsync(ICollection<Orders> orders)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Orders> GetOne(int id)
         {
             return await _dbContext.Orders.Where(p => p.OrderId == id).FirstOrDefaultAsync();
