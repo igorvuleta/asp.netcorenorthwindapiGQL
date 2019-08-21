@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace graphqldemo.Data.Repositories
 {
-    interface IProductRepository
+    public interface IProductRepository
     {
         Task<IList<Products>> GetAllAsync();
+        Task<Products> GetOne(int id);
+        Task<IEnumerable<Products>> GetOneFor(string productName);
     }
 }

@@ -9,5 +9,6 @@ namespace graphqldemo.Data.Repositories.EmployeesRepo
     public interface IEmployeesRepo
     {
         Task<IList<Employees>> GetAllAsync();
+        Task<Employees> GetOne(int? id);
     }
 }

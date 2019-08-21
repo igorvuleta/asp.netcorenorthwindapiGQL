@@ -1,6 +1,7 @@
 ﻿using GraphQL.Types;
 using graphqldemo.Data.Repositories.EmployeeTerritoriesRepo;
 using graphqldemo.Data.Repositories.RegionRepo;
+using graphqldemo.Helpers;
 using graphqldemo.Models;
 using System;
 using System.Collections.Generic;
@@ -11,18 +12,18 @@ namespace graphqldemo.GraphQL.Types
 {
     public class TerritoriesType : ObjectGraphType<Territories>
     {
-        public TerritoriesType(RegionRepo regionRepo, EmployeeTerritoriesRepo employeeTerritoriesRepo)
+        public TerritoriesType(ContextServiceLocator contextServiceLocator)
         {
             Field(t => t.TerritoryId, type:typeof(IdGraphType));
             Field(t => t.TerritoryDescription);
             Field(t => t.RegionId, type:typeof(IdGraphType));
             Field<RegionType>(
                 name:"Region",
-                resolve: context => regionRepo.GetOne(context.Source.RegionId)
+                resolve: context => contextServiceLocator.RegionRepo.GetOne(context.Source.RegionId)
                 );
             Field<ListGraphType<EmployeeTerritoriesType>>(
                 "EmployeTerritoriesList",
-                resolve: context => employeeTerritoriesRepo.GetAllAsyncArgs(context.Source.TerritoryId)
+                resolve: context => contextServiceLocator.EmployeeTerritoriesRepo.GetOneArgs(context.Source.TerritoryId)
                 );
 
         }

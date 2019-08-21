@@ -31,5 +31,10 @@ namespace graphqldemo.Data.Repositories.TerritoriesRepo
         {
             return await _dbContext.Territories.OrderBy(t => t.RegionId == id).FirstOrDefaultAsync();
         }
+
+        Task<IEnumerable<Territories>> ITerritoriesRepo.GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

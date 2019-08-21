@@ -8,7 +8,7 @@ namespace graphqldemo.Data.Repositories.CustomerDemographicsRepo
 {
     public interface ICustomerDemographicsRepo
     {
-        Task<IList<CustomerDemographics>> GetAllAsync(ICollection<CustomerCustomerDemo> customerCustomerDemo);
+        Task<IList<CustomerDemographics>> GetAllAsync();
         Task<CustomerDemographics> GetOne(string id);
     }
 }

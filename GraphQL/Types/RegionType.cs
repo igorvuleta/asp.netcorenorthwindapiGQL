@@ -1,5 +1,6 @@
 ﻿using GraphQL.Types;
 using graphqldemo.Data.Repositories.TerritoriesRepo;
+using graphqldemo.Helpers;
 using graphqldemo.Models;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,13 @@ namespace graphqldemo.GraphQL.Types
 {
     public class RegionType : ObjectGraphType<Region>
     {
-        public RegionType(TerritoriesRepo territoriesRepo)
+        public RegionType(ContextServiceLocator contextServiceLocator)
         {
             Field(t => t.RegionId);
             Field(t => t.RegionDescription);
             Field<ListGraphType<TerritoriesType>>(
                 name: "territoriesList",
-                resolve: context => territoriesRepo.GetAllAsync(context.Source.RegionId)
+                resolve: context => contextServiceLocator.TerritoriesRepo.GetAllAsync(context.Source.RegionId)
                 );
         }
     }

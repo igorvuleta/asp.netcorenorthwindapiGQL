@@ -2,6 +2,7 @@
 using graphqldemo.Data.Repositories.CustomersRepo;
 using graphqldemo.Data.Repositories.EmployeesRepo;
 using graphqldemo.Data.Repositories.OrderDetailsRepo;
+using graphqldemo.Helpers;
 using graphqldemo.Models;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace graphqldemo.GraphQL.Types
 
 
 
-        public OrdersType( OrderDetailsRepo orderDetailsRepo, CustomersRepo customersRepo, EmployeesRepo employeesRepo)
+        public OrdersType(ContextServiceLocator contextServiceLocator)
         {
             Field(t => t.OrderId);
             Field(t => t.CustomerId, type:typeof(IdGraphType));
@@ -40,21 +41,21 @@ namespace graphqldemo.GraphQL.Types
 
                      if (id != 0)
                      {
-                         return orderDetailsRepo.GetOneForOrders(id);
+                         return contextServiceLocator.OrderDetailsRepo.GetOneForOrders(id);
                      }
 
 
-                     return orderDetailsRepo.GetOrder(context.Source.OrderId);
+                     return contextServiceLocator.OrderDetailsRepo.GetOrder(context.Source.OrderId);
                  }
 
                 );
             Field<CustomersType>(
                 name: "Customer",
-                resolve: context => customersRepo.GetOne(context.Source.CustomerId)
+                resolve: context => contextServiceLocator.CustomersRepo.GetOne(context.Source.CustomerId)
                 );
             Field<EmployeesType>(
                 name: "employee",
-                resolve: context => employeesRepo.GetOne(context.Source.EmployeeId)
+                resolve: context => contextServiceLocator.EmplyeesRepo.GetOne(context.Source.EmployeeId)
                 );
 
         }

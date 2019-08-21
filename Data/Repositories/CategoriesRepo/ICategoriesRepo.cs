@@ -9,5 +9,7 @@ namespace graphqldemo.Data.Repositories.CategoriesRepo
     public interface ICategoriesRepo
     {
         Task<IList<Categories>> GetAllAsync();
+        Task<Categories> GetOne(int id);
+        Task<IList<Products>> GetAllAsync2(int id);
     }
 }

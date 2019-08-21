@@ -1,6 +1,7 @@
 ﻿using GraphQL.Types;
 using graphqldemo.Data.Repositories;
 using graphqldemo.Data.Repositories.OrdersRepo;
+using graphqldemo.Helpers;
 using graphqldemo.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace graphqldemo.GraphQL.Types
 {
     public class OrderDetailsType : ObjectGraphType<OrderDetails>
     {
-    public OrderDetailsType(OrdersRepo ordersRepo, ProductRepository productRepo)
+    public OrderDetailsType(ContextServiceLocator contextServiceLocator)
         {
             Field(t => t.OrderId);
             Field(t => t.ProductId, type:typeof(IdGraphType));
@@ -27,13 +28,13 @@ namespace graphqldemo.GraphQL.Types
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
-                    return ordersRepo.GetOne(context.Source.OrderId);
+                    return contextServiceLocator.OrdersRepo.GetOne(context.Source.OrderId);
                 }
                 
                 );
             Field<ProductType>(
                 name:"Product",
-                resolve: context => productRepo.GetOne(context.Source.ProductId)
+                resolve: context => contextServiceLocator.ProductRepository.GetOne(context.Source.ProductId)
                 );
         }
     }

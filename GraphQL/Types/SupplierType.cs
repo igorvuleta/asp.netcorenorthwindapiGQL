@@ -2,6 +2,7 @@
 using GraphQL.Types;
 using graphqldemo.Data.Repositories;
 using graphqldemo.Data.Repositories.SupplierRepo;
+using graphqldemo.Helpers;
 using graphqldemo.Models;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace graphqldemo.GraphQL.Types
 {
     public class SupplierType : ObjectGraphType<Suppliers>
     {
-        public SupplierType( SupplierRepo suppliersRepo, ProductRepository productRepository)
+        public SupplierType(ContextServiceLocator contextServiceLocator)
         {
             Field(t => t.SupplierId, nullable:false, type:typeof(IdGraphType));
             Field(t => t.CompanyName);
@@ -38,11 +39,11 @@ namespace graphqldemo.GraphQL.Types
 
                      if (productName != null)
                      {
-                         return productRepository.GetOneFor(productName);
+                         return contextServiceLocator.ProductRepository.GetOneFor(productName);
                      }
 
 
-                     return suppliersRepo.GetAllAsync(context.Source.SupplierId);
+                     return contextServiceLocator.SupplierRepo.GetAllAsync(context.Source.SupplierId);
                  }
 
                 );

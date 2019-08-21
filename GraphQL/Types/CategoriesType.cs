@@ -2,6 +2,7 @@
 using GraphQL.Types;
 using graphqldemo.Data.Repositories;
 using graphqldemo.Data.Repositories.CategoriesRepo;
+using graphqldemo.Helpers;
 using graphqldemo.Models;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace graphqldemo.GraphQL.Types
 {
     public class CategoriesType : ObjectGraphType<Categories>
     {
-        public CategoriesType(  ProductRepository productRepository, CategoriesRepo categoriesRepo)
+        public CategoriesType(ContextServiceLocator contextServiceLocator)
         {
             Field(t => t.CategoryId, type:typeof(IdGraphType));
             Field(t => t.CategoryName);
@@ -32,7 +33,7 @@ namespace graphqldemo.GraphQL.Types
                 {
                     var id = context.GetArgument<int>("id");
                     
-                    return categoriesRepo.GetAllAsync2(context.Source.CategoryId);
+                    return contextServiceLocator.CategoriesRepo.GetAllAsync2(context.Source.CategoryId);
 
 
 

@@ -24,10 +24,14 @@ using graphqldemo.Data.Repositories.ShippersRepo;
 using graphqldemo.Data.Repositories.SupplierRepo;
 using graphqldemo.Data.Repositories.TerritoriesRepo;
 using graphqldemo.GraphQL;
+using graphqldemo.GraphQL.Query;
+using graphqldemo.GraphQL.Types;
+using graphqldemo.Helpers;
 using graphqldemo.middleware;
 using graphqldemo.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -52,7 +56,7 @@ namespace graphqldemo
         {
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
-                builder => builder.WithOrigins("http://localhost:4200", "https://localhost:44372", "http://10.198.3.161:4200")
+                builder => builder.WithOrigins("http://localhost:4200", "https://localhost:44372")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()
@@ -66,32 +70,48 @@ namespace graphqldemo
             });
 
 
-            services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-
+            // services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<ContextServiceLocator>();
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
-            services.AddSingleton<DataLoaderDocumentListener>();
-            services.AddScoped<ProductRepository>();
-            services.AddScoped<SupplierRepo>();
-            services.AddScoped<CategoriesRepo>();
-            services.AddScoped<OrderDetailsRepo>();
-            services.AddScoped<OrdersRepo>();
-            services.AddScoped<CustomersRepo>();
-            services.AddScoped<ShippersRepo>();
-            services.AddScoped<EmployeesRepo>();
-            services.AddScoped<RegionRepo>();
-            services.AddScoped<EmployeeTerritoriesRepo>();
-            services.AddScoped<TerritoriesRepo>();
-            services.AddScoped<CustomerCustomerDemoRepo>();
-            services.AddScoped<CustomerDemographicsRepo>();
-            
-            services.AddScoped<ISchema,NorthWindSchema>();
+            //services.AddSingleton<DataLoaderDocumentListener>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddSingleton<ProductType>();
+            services.AddSingleton<NorthWindQuery>();
+            services.AddSingleton<SupplierType>();
+            services.AddSingleton<CategoriesType>();
+            services.AddSingleton<CustomerCustomerDemoType>();
+            services.AddSingleton<CustomersType>();
+            services.AddSingleton<OrdersType>();
+            services.AddSingleton<OrderDetailsType>();
+            services.AddSingleton<CustomerDemographicsType>();
+            services.AddSingleton<EmployeesType>();
+            services.AddSingleton<EmployeeTerritoriesType>();
+            services.AddSingleton<ShippersType>();
+            services.AddSingleton<TerritoriesType>();
+            services.AddSingleton<RegionType>();
 
-            services.AddGraphQL(options =>
-            {
-                options.ExposeExceptions = true;
+            services.AddTransient<ISupllierRepo, SupplierRepo>();
+            services.AddTransient<ICategoriesRepo, CategoriesRepo>();
+            services.AddTransient<IOrderDetailsRepo, OrderDetailsRepo>();
+            services.AddTransient<IOrdersRepo, OrdersRepo>();
+            services.AddTransient<ICustomersRepo, CustomersRepo>();
+            services.AddTransient<IShippersRepo, ShippersRepo>();
+            services.AddTransient<IEmployeesRepo, EmployeesRepo>();
+            services.AddTransient<IRegionRepo, RegionRepo>();
+            services.AddTransient<IEmployeeTerritoriesRepo, EmployeeTerritoriesRepo>();
+            services.AddTransient<ITerritoriesRepo, TerritoriesRepo>();
+            services.AddTransient<ICustomerCustomerDemoRepo, CustomerCustomerDemoRepo>();
+            services.AddTransient<ICustomerDemographicsRepo, CustomerDemographicsRepo>();
+            var sp = services.BuildServiceProvider();
+            services.AddSingleton<ISchema>(new NorthWindSchema(new FuncDependencyResolver(type => sp.GetService(type))));
 
-            }).AddGraphTypes(ServiceLifetime.Scoped).AddDataLoader();
+            //services.AddGraphQL(options =>
+            //{
+            //    options.ExposeExceptions = true;
+
+            //}).AddGraphTypes(ServiceLifetime.Singleton);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,11 +128,10 @@ namespace graphqldemo
 
 
             app.UseCors("CorsPolicy");
-            app.UseMiddleware<GraphqlMiddleware>();
+           // app.UseMiddleware<GraphqlMiddleware>();
             app.UseHttpsRedirection();
-            app.UseGraphQL<NorthWindSchema>();
             app.UseGraphQLVoyager(new GraphQLVoyagerOptions());
-            app.UseGraphQLPlayground( new GraphQLPlaygroundOptions());
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
             app.UseMvc();
 
         }

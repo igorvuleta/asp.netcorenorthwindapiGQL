@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace graphqldemo.Data.Repositories.SupplierRepo
 {
-    interface ISupllierRepo
+    public interface ISupllierRepo
     {
         Task<IList<Suppliers>> GetAllAsync();
+        Task<Suppliers> GetCities(string cityName);
+        Task<Suppliers> GetOne(int? id);
+        Task<Suppliers> GetOneArgs(int? id);
+        Task<IList<Products>> GetAllAsync(int supplierId);
 
     }
 }

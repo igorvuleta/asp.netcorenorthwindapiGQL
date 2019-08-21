@@ -3,6 +3,7 @@ using graphqldemo.Data.Repositories;
 using graphqldemo.Data.Repositories.CategoriesRepo;
 using graphqldemo.Data.Repositories.OrderDetailsRepo;
 using graphqldemo.Data.Repositories.SupplierRepo;
+using graphqldemo.Helpers;
 using graphqldemo.Models;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace graphqldemo.GraphQL.Types
 {
     public class ProductType : ObjectGraphType<Products>
     {
-        public ProductType(CategoriesRepo categoriesRepo, SupplierRepo suppliersRepo, OrderDetailsRepo orderDetailsRepo, ProductRepository productRepository)
+        public ProductType(ContextServiceLocator contextServiceLocator)
         {
             Field(t => t.ProductId, nullable: false, type: typeof(IdGraphType));
             Field(t => t.ProductName).Description("Product name");
@@ -29,7 +30,7 @@ namespace graphqldemo.GraphQL.Types
             Field<SupplierType>(
                 name: "Supplier",
 
-                resolve: context => suppliersRepo.GetOne(context.Source.ProductId));
+                resolve: context => contextServiceLocator.SupplierRepo.GetOne(context.Source.SupplierId));
             Field<ListGraphType<OrderDetailsType>>(
                  "orderDetailList",
                  arguments: new QueryArguments(new QueryArgument<IdGraphType> { Name = "productId" }),
@@ -37,17 +38,17 @@ namespace graphqldemo.GraphQL.Types
                  {
                      var id = context.GetArgument<int>("productId");
 
-                     
 
 
-                     return orderDetailsRepo.GetAllAsyncList(context.Source.ProductId);
+
+                     return contextServiceLocator.OrderDetailsRepo.GetAllAsyncList(context.Source.ProductId);
                  }
-                
-                );
-                
-                
 
-                
+                );
+
+
+
+
 
         }
     }

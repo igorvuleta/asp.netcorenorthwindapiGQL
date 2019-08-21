@@ -10,5 +10,6 @@ namespace graphqldemo.Data.Repositories.TerritoriesRepo
     {
         Task<IList<Territories>> GetAllAsync(int regionId);
         Task<Territories> GetOne(string id);
+        Task<IEnumerable<Territories>> GetAllAsync();
     }
 }
