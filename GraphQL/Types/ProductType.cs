@@ -31,20 +31,20 @@ namespace graphqldemo.GraphQL.Types
                 name: "Supplier",
 
                 resolve: context => contextServiceLocator.SupplierRepo.GetOne(context.Source.SupplierId));
-            Field<ListGraphType<OrderDetailsType>>(
-                 "orderDetailList",
-                 arguments: new QueryArguments(new QueryArgument<IdGraphType> { Name = "productId" }),
-                 resolve: context =>
-                 {
-                     var id = context.GetArgument<int>("productId");
+            //Field<ListGraphType<OrderDetailsType>>(
+            //     "orderDetailList",
+            //     arguments: new QueryArguments(new QueryArgument<IdGraphType> { Name = "productId" }),
+            //     resolve: context =>
+            //     {
+            //         var id = context.GetArgument<int>("productId");
 
 
 
 
-                     return contextServiceLocator.OrderDetailsRepo.GetAllAsyncList(context.Source.ProductId);
-                 }
+            //         return contextServiceLocator.OrderDetailsRepo.GetAllAsyncList(context.Source.ProductId);
+            //     }
 
-                );
+            //    );
 
 
 

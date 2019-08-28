@@ -36,7 +36,7 @@ namespace graphqldemo.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=PC-IVULETA;Database=northwind;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=PC-IVULETA;Database=Northwind;Trusted_Connection=True;");
             }
         }
 
@@ -225,7 +225,7 @@ namespace graphqldemo.Data
             {
                 entity.HasKey(e => new { e.OrderId, e.ProductId });
 
-                entity.ToTable("Order Details");
+                entity.ToTable("OrderDetails");
 
                 entity.HasIndex(e => e.OrderId)
                     .HasName("OrdersOrder_Details");

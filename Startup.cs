@@ -10,6 +10,7 @@ using GraphQL.Server.Ui.Playground;
 using GraphQL.Server.Ui.Voyager;
 using GraphQL.Types;
 using graphqldemo.Data;
+using graphqldemo.Data.Models;
 using graphqldemo.Data.Repositories;
 using graphqldemo.Data.Repositories.CategoriesRepo;
 using graphqldemo.Data.Repositories.CustomerCustomerDemoRepo;
@@ -24,6 +25,7 @@ using graphqldemo.Data.Repositories.ShippersRepo;
 using graphqldemo.Data.Repositories.SupplierRepo;
 using graphqldemo.Data.Repositories.TerritoriesRepo;
 using graphqldemo.GraphQL;
+using graphqldemo.GraphQL.GraphqlHelpers;
 using graphqldemo.GraphQL.Query;
 using graphqldemo.GraphQL.Types;
 using graphqldemo.Helpers;
@@ -71,41 +73,53 @@ namespace graphqldemo
 
 
             // services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<ContextServiceLocator>();
+            services.AddScoped<ITableNameLookup, TableNameLookup>();
+            services.AddScoped<IDatabaseMetadata, DatabaseMetadata>();
+            services.AddScoped((resolver) =>
+            {
+                var dbContext = resolver.GetRequiredService<NorthWindContext>();
+                var metaDatabase = resolver.GetRequiredService<IDatabaseMetadata>();
+                var tableNameLookup = resolver.GetRequiredService<ITableNameLookup>();
+
+                var schema = new Schema { Query = new NorthWindQuery(dbContext, metaDatabase, tableNameLookup) };
+                schema.Initialize();
+
+                return schema;
+            });
+           
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
             //services.AddSingleton<DataLoaderDocumentListener>();
-            services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddSingleton<ProductType>();
-            services.AddSingleton<NorthWindQuery>();
-            services.AddSingleton<SupplierType>();
-            services.AddSingleton<CategoriesType>();
-            services.AddSingleton<CustomerCustomerDemoType>();
-            services.AddSingleton<CustomersType>();
-            services.AddSingleton<OrdersType>();
-            services.AddSingleton<OrderDetailsType>();
-            services.AddSingleton<CustomerDemographicsType>();
-            services.AddSingleton<EmployeesType>();
-            services.AddSingleton<EmployeeTerritoriesType>();
-            services.AddSingleton<ShippersType>();
-            services.AddSingleton<TerritoriesType>();
-            services.AddSingleton<RegionType>();
+            //services.AddTransient<IProductRepository, ProductRepository>();
+            //services.AddSingleton<ProductType>();
+            //services.AddSingleton<NorthWindQuery>();
+            //services.AddSingleton<SupplierType>();
+            //services.AddSingleton<CategoriesType>();
+            //services.AddSingleton<CustomerCustomerDemoType>();
+            //services.AddSingleton<CustomersType>();
+            //services.AddSingleton<OrdersType>();
+            //services.AddSingleton<OrderDetailsType>();
+            //services.AddSingleton<CustomerDemographicsType>();
+            //services.AddSingleton<EmployeesType>();
+            //services.AddSingleton<EmployeeTerritoriesType>();
+            //services.AddSingleton<ShippersType>();
+            //services.AddSingleton<TerritoriesType>();
+            //services.AddSingleton<RegionType>();
 
-            services.AddTransient<ISupllierRepo, SupplierRepo>();
-            services.AddTransient<ICategoriesRepo, CategoriesRepo>();
-            services.AddTransient<IOrderDetailsRepo, OrderDetailsRepo>();
-            services.AddTransient<IOrdersRepo, OrdersRepo>();
-            services.AddTransient<ICustomersRepo, CustomersRepo>();
-            services.AddTransient<IShippersRepo, ShippersRepo>();
-            services.AddTransient<IEmployeesRepo, EmployeesRepo>();
-            services.AddTransient<IRegionRepo, RegionRepo>();
-            services.AddTransient<IEmployeeTerritoriesRepo, EmployeeTerritoriesRepo>();
-            services.AddTransient<ITerritoriesRepo, TerritoriesRepo>();
-            services.AddTransient<ICustomerCustomerDemoRepo, CustomerCustomerDemoRepo>();
-            services.AddTransient<ICustomerDemographicsRepo, CustomerDemographicsRepo>();
-            var sp = services.BuildServiceProvider();
-            services.AddSingleton<ISchema>(new NorthWindSchema(new FuncDependencyResolver(type => sp.GetService(type))));
+            //services.AddTransient<ISupllierRepo, SupplierRepo>();
+            //services.AddTransient<ICategoriesRepo, CategoriesRepo>();
+            //services.AddTransient<IOrderDetailsRepo, OrderDetailsRepo>();
+            //services.AddTransient<IOrdersRepo, OrdersRepo>();
+            //services.AddTransient<ICustomersRepo, CustomersRepo>();
+            //services.AddTransient<IShippersRepo, ShippersRepo>();
+            //services.AddTransient<IEmployeesRepo, EmployeesRepo>();
+            //services.AddTransient<IRegionRepo, RegionRepo>();
+            //services.AddTransient<IEmployeeTerritoriesRepo, EmployeeTerritoriesRepo>();
+            //services.AddTransient<ITerritoriesRepo, TerritoriesRepo>();
+            //services.AddTransient<ICustomerCustomerDemoRepo, CustomerCustomerDemoRepo>();
+            //services.AddTransient<ICustomerDemographicsRepo, CustomerDemographicsRepo>();
+           //var sp = services.BuildServiceProvider();
+           // services.AddSingleton<ISchema>(new NorthWindSchema(new FuncDependencyResolver(type => sp.GetService(type))));
 
             //services.AddGraphQL(options =>
             //{
@@ -128,7 +142,7 @@ namespace graphqldemo
 
 
             app.UseCors("CorsPolicy");
-           // app.UseMiddleware<GraphqlMiddleware>();
+            //app.UseMiddleware<GraphqlMiddleware>();
             app.UseHttpsRedirection();
             app.UseGraphQLVoyager(new GraphQLVoyagerOptions());
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());

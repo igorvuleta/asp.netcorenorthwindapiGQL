@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Types;
 using graphqldemo.Data.Models;
+using graphqldemo.GraphQL.GraphqlHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,12 +17,13 @@ namespace graphqldemo.Controllers
     public class GraphQLController : Controller
     {
         private readonly IDocumentExecuter _documentExecuter;
-        private readonly ISchema _schema;
+        private readonly Schema _schema;
 
-        public GraphQLController(ISchema schema, IDocumentExecuter documentExecuter)
+        public GraphQLController(Schema schema, IDocumentExecuter documentExecuter)
         {
             _schema = schema;
             _documentExecuter = documentExecuter;
+           
         }
 
         [HttpPost]

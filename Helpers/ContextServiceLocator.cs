@@ -1,4 +1,5 @@
-﻿using graphqldemo.Data.Repositories;
+﻿using graphqldemo.Data;
+using graphqldemo.Data.Repositories;
 using graphqldemo.Data.Repositories.CategoriesRepo;
 using graphqldemo.Data.Repositories.CustomerCustomerDemoRepo;
 using graphqldemo.Data.Repositories.CustomerDemographicsRepo;
@@ -11,7 +12,9 @@ using graphqldemo.Data.Repositories.RegionRepo;
 using graphqldemo.Data.Repositories.ShippersRepo;
 using graphqldemo.Data.Repositories.SupplierRepo;
 using graphqldemo.Data.Repositories.TerritoriesRepo;
+using graphqldemo.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -63,10 +66,25 @@ namespace graphqldemo.Helpers
         
 
         public IHttpContextAccessor _httpContextAccessor { get; private set; }
+        private readonly NorthWindContext _northWindContext;
 
-        public ContextServiceLocator(IHttpContextAccessor httpContextAccessor)
+        public ContextServiceLocator(IHttpContextAccessor httpContextAccessor,NorthWindContext northWindContext)
         {
             _httpContextAccessor = httpContextAccessor;
+            _northWindContext = northWindContext;
         }
+
+       
+            public void GetAllTables()
+            {
+
+            var entityTypes = _northWindContext.Model.GetEntityTypes().Select(t => t.ClrType).ToList();
+
+            
+                
+            }
+        
+
+       
     }
 }

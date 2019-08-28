@@ -26,29 +26,29 @@ namespace graphqldemo.GraphQL
                         return await context.TryAsyncResolve(
                             async c => await productRepository.AddProduct(product));
                     });
-            FieldAsync<ProductType>(
-                "deleteProduct",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "productId" }),
-                resolve: async context =>
-                {
-                    var id =  context.GetArgument<int>("productId");
-                    var product = await productRepository.GetOne(id);
-                    var orderDetails = await orderDetailsRepository.GetOne(id);
+            //FieldAsync<ProductType>(
+            //    "deleteProduct",
+            //    arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "productId" }),
+            //    resolve: async context =>
+            //    {
+            //        var id =  context.GetArgument<int>("productId");
+            //        var product = await productRepository.GetOne(id);
+            //        var orderDetails = await orderDetailsRepository.GetOne(id);
 
-                    if (product == null)
-                    {
-                        context.Errors.Add(new ExecutionError("no product in db"));
-                        return null;
-                    }
-                    productRepository.RemoveProduct(product);
-                    orderDetailsRepository.RemoveEntry(orderDetails);
+            //        if (product == null)
+            //        {
+            //            context.Errors.Add(new ExecutionError("no product in db"));
+            //            return null;
+            //        }
+            //        productRepository.RemoveProduct(product);
+            //        orderDetailsRepository.RemoveEntry(orderDetails);
 
 
-                    return "the product was deleted";
+            //        return "the product was deleted";
 
 
                    
-                });
+            //    });
         }
     }
 }
